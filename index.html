@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emali Township Comprehensive School</title>
+
+<style>
+body{
+margin:0;
+font-family: 'Segoe UI', sans-serif;
+background:url('https://i.ibb.co/tMnbmgvz/1000030792.jpg') no-repeat center center fixed;
+background-size:cover;
+color:#4e342e;
+}
+
+.overlay{
+background:rgba(255,248,240,0.92);
+min-height:100vh;
+padding-bottom:50px;
+}
+
+header{
+text-align:center;
+padding:15px;
+background:linear-gradient(90deg,#ffcc80,#ffb74d);
+color:#5d4037;
+}
+
+.card{
+background:#fffaf3;
+padding:18px;
+margin:15px 0;
+border-radius:14px;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+input,select{
+width:100%;
+padding:12px;
+margin:8px 0;
+border-radius:10px;
+border:1px solid #ffe0b2;
+background:#fffdf8;
+}
+
+input:focus,select:focus{
+outline:none;
+border:1px solid #ffb74d;
+box-shadow:0 0 5px rgba(255,183,77,0.4);
+}
+
+.primary{
+background:#fb8c00;
+color:white;
+}
+
+.primary:hover{
+background:#ef6c00;
+}
+
+.danger{
+background:#e53935;
+color:white;
+}
+
+/* Splash */
+#splash{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:url('https://i.ibb.co/bjbmxcBG/1000030836.jpg') center/cover no-repeat;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+color:white;
+text-align:center;
+z-index:9999;
+}
+
+#splash h1{
+font-size:28px;
+margin:10px;
+}
+
+#splash p{
+font-size:18px;
+font-style:italic;
+}
+
+header{
+text-align:center;
+padding:20px;
+background:rgba(0,0,0,0.75);
+color:white;
+}
+
+header h2{
+margin:0;
+font-size:22px;
+font-weight:bold;
+color:white;
+}
+
+.motto{
+font-style:italic;
+font-size:15px;
+color:#ffcc80;
+margin-top:5px;
+}
+
+.container{
+width:95%;
+max-width:600px;
+margin:auto;
+}
+
+.card{
+background:rgba(255,255,255,0.1);
+padding:15px;
+margin:15px 0;
+border-radius:10px;
+backdrop-filter:blur(8px);
+}
+
+input,select{
+width:100%;
+padding:10px;
+margin:6px 0;
+border-radius:6px;
+border:none;
+}
+
+button{
+padding:10px;
+margin:5px 0;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+.primary{background:#00c853;color:white;}
+.danger{background:red;color:white;}
+.admin{background:orange;color:black;}
+
+img.preview{
+width:100%;
+max-height:200px;
+object-fit:cover;
+border-radius:8px;
+margin-top:5px;
+}
+
+.tabs button{
+width:33%;
+background:#333;
+color:white;
+}
+
+.hidden{display:none;}
+
+.gallery-grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
+gap:10px;
+}
+
+.gallery-grid img{
+width:100%;
+height:120px;
+object-fit:cover;
+border-radius:6px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="splash">
+<h1>Emali Township Comprehensive School</h1>
+<p>Excellence Is Our Pride</p>
+</div>
+
+<div class="overlay hidden" id="main">
+
+<header>
+<h2>Emali Township Comprehensive School</h2>
+<div class="motto">Excellence Is Our Pride</div>
+<button onclick="enterAdmin()">Admin Login</button>
+</header>
+
+<div class="container">
+
+<div class="tabs">
+<button onclick="showTab('register')">Register</button>
+<button onclick="showTab('students')">Students</button>
+<button onclick="showTab('gallery')">Gallery</button>
+</div>
+
+<!-- REGISTER -->
+<div id="register" class="card hidden">
+<h3>Register Student</h3>
+<div style="text-align:center;margin-bottom:15px;">
+
+<div id="photoCircle"
+style="
+width:130px;
+height:130px;
+border-radius:50%;
+border:4px solid #fb8c00;
+margin:auto;
+background:#fff3e0;
+background-size:cover;
+background-position:center;
+cursor:pointer;"
+onclick="document.getElementById('photoInput').click()">
+</div>
+
+<button type="button"
+        class="primary"
+        style="margin-top:10px;"
+        onclick="document.getElementById('photoInput').click();">
+    Take Photo
+</button>
+
+</div>
+<input id="name" placeholder="Full Name">
+<input id="adm" placeholder="Admission Number">
+<input id="birth" placeholder="Birth Certificate Number">
+<input id="upi" class="hidden adminOnly" placeholder="UPI Number">
+<input id="assessment" class="hidden adminOnly" placeholder="Assessment Number">
+
+<select id="class" onchange="updateStreams()">
+<option value="">Select Class</option>
+<option>PP1</option>
+<option>PP2</option>
+<option>Grade 1</option>
+<option>Grade 2</option>
+<option>Grade 3</option>
+<option>Grade 4</option>
+<option>Grade 5</option>
+<option>Grade 6</option>
+<option>Grade 7</option>
+<option>Grade 8</option>
+<option>Grade 9</option>
+</select>
+
+<select id="stream">
+<option value="">Select Stream</option>
+</select>
+
+<input id="parent" placeholder="Parent/Guardian Name">
+<input id="parentid" placeholder="Parent ID Number">
+<input id="phone" placeholder="Phone Number">
+
+<input type="file" 
+id="photoInput"
+accept="image/*" 
+capture="environment"
+onchange="previewImage(event)"
+hidden>
+<img id="preview" class="preview hidden">
+
+<button class="primary" onclick="saveStudent()">Save Student</button>
+</div>
+
+<!-- STUDENTS -->
+<div id="students" class="card">
+<h3>Student List</h3>
+<div id="studentList"></div>
+</div>
+
+<!-- GALLERY -->
+<div id="gallery" class="card hidden">
+<h3>School Gallery</h3>
+
+
+
+<div class="gallery-grid" id="galleryGrid"></div>
+</div>
+
+</div>
+</div>
+<!-- ADMIN PANEL -->
+<div id="adminPanel" class="card hidden">
+<h3>Admin Panel</h3>
+<h4>Upload Gallery Photo</h4>
+
+<select id="galleryCategory">
+<option>General</option>
+<option>Staff</option>
+<option>Students</option>
+<option>Subordinate Staff</option>
+</select>
+
+<input type="file" accept="image/*" onchange="previewGallery(event)">
+<img id="galleryPreview" class="preview hidden">
+
+<button class="primary" onclick="uploadGallery()">Upload Photo</button>
+
+<hr>
+
+<button class="primary" onclick="autoPromote()">
+Auto Promote All Students
+</button>
+
+<hr>
+
+<h4>Headteacher Actions</h4>
+<div id="adminStudentList"></div>
+
+</div>
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyD5EDzaSHwM-XM1RHATrWx5ipqesby_Onc",
+  authDomain: "emali-township-school.firebaseapp.com",
+  projectId: "emali-township-school",
+  storageBucket: "emali-township-school.firebasestorage.app",
+  messagingSenderId: "357315757880",
+  appId: "1:357315757880:web:1ccd7095b6570dd08ce3cd"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+let isAdmin=false;
+let imageBase64="";
+let galleryBase64="";
+const name = document.getElementById("name");
+const adm = document.getElementById("adm");
+const birth = document.getElementById("birth");
+const parent = document.getElementById("parent");
+const parentid = document.getElementById("parentid");
+const phone = document.getElementById("phone");
+/* Splash auto close - Safe Version */
+document.addEventListener("DOMContentLoaded", function(){
+setTimeout(function(){
+const splash = document.getElementById("splash");
+if(splash){
+splash.style.display="none";
+document.getElementById("main").classList.remove("hidden");
+}
+},2000);
+});
+
+function enterAdmin(){
+let pin=prompt("Enter Admin PIN");
+
+if(pin==="6060"){
+isAdmin=true;
+alert("Headteacher Mode Activated");
+// Show admin-only fields
+document.querySelectorAll(".adminOnly").forEach(el=>{
+el.classList.remove("hidden");
+});
+
+document.getElementById("adminPanel").classList.remove("hidden");
+loadStudents();
+loadGallery();
+loadAdminPanel();
+
+}else if(pin!==null){
+alert("Incorrect PIN");
+}
+}
+
+function showTab(id){
+document.getElementById("register").classList.add("hidden");
+document.getElementById("students").classList.add("hidden");
+document.getElementById("gallery").classList.add("hidden");
+document.getElementById(id).classList.remove("hidden");
+if(id==="students")loadStudents();
+if(id==="gallery")loadGallery();
+}
+
+function updateStreams(){
+let cls=document.getElementById("class").value;
+let stream=document.getElementById("stream");
+stream.innerHTML="";
+if(["PP1","PP2","Grade 1","Grade 2","Grade 3"].includes(cls)){
+stream.innerHTML="<option>West</option><option>East</option>";
+}else{
+stream.innerHTML="<option>West</option><option>East</option><option>North</option>";
+}
+}
+
+function previewImage(e){
+
+let file = e.target.files[0];
+let reader = new FileReader();
+
+reader.onload = function(event){
+
+let img = new Image();
+img.onload = function(){
+
+let canvas = document.createElement("canvas");
+let ctx = canvas.getContext("2d");
+
+let MAX_WIDTH = 400;
+let scaleSize = MAX_WIDTH / img.width;
+
+canvas.width = MAX_WIDTH;
+canvas.height = img.height * scaleSize;
+
+ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+imageBase64 = canvas.toDataURL("image/jpeg", 0.6); // compressed
+
+let circle = document.getElementById("photoCircle");
+circle.style.backgroundImage = "url('"+imageBase64+"')";
+};
+
+img.src = event.target.result;
+};
+
+reader.readAsDataURL(file);
+}
+function saveStudent(){
+
+if(!imageBase64){
+alert("Please take or upload student photo first");
+return;
+}
+
+db.collection("students").add({
+name:name.value,
+adm:adm.value,
+birth:birth.value,
+upi: "",
+assessment: "",
+class:document.getElementById("class").value,
+stream:document.getElementById("stream").value,
+parent:parent.value,
+parentid:parentid.value,
+phone:phone.value,
+photo:imageBase64
+}).then(()=>{
+alert("Saved");
+document.querySelectorAll("#register input").forEach(i=>i.value="");
+document.getElementById("preview").classList.add("hidden");
+imageBase64="";
+document.getElementById("photoCircle").style.backgroundImage="";
+});
+}
+
+function loadStudents(){
+
+let list = document.getElementById("studentList");
+list.innerHTML = "";
+
+db.collection("students").get().then(snapshot=>{
+
+let grouped = {};
+
+snapshot.forEach(doc=>{
+let d = doc.data();
+if(!grouped[d.class]){
+grouped[d.class] = [];
+}
+grouped[d.class].push({...d, id: doc.id});
+});
+
+for(let className in grouped){
+
+list.innerHTML += `
+<div class="card">
+<button class="primary" onclick="toggleClass('${className}')">
+${className}
+</button>
+
+<div id="class-${className}" class="hidden"></div>
+</div>
+`;
+
+let container = document.getElementById("class-"+className);
+
+grouped[className].forEach(d=>{
+container.innerHTML += `
+<div class="card">
+<img src="${d.photo}" class="preview">
+<b>${d.name}</b><br>
+Admission: ${d.adm}<br>
+Stream: ${d.stream}<br>
+Parent: ${d.parent}<br>
+Phone: ${d.phone}<br>
+</div>
+`;
+});
+
+}
+
+});
+}
+function toggleClass(className){
+let section = document.getElementById("class-"+className);
+section.classList.toggle("hidden");
+}
+function deleteStudent(id){
+db.collection("students").doc(id).delete().then(loadStudents);
+}
+
+function previewGallery(e){
+
+let file = e.target.files[0];
+let reader = new FileReader();
+
+reader.onload = function(event){
+
+let img = new Image();
+img.onload = function(){
+
+let canvas = document.createElement("canvas");
+let ctx = canvas.getContext("2d");
+
+let MAX_WIDTH = 500;
+let scaleSize = MAX_WIDTH / img.width;
+
+canvas.width = MAX_WIDTH;
+canvas.height = img.height * scaleSize;
+
+ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+galleryBase64 = canvas.toDataURL("image/jpeg", 0.6);
+
+let preview = document.getElementById("galleryPreview");
+preview.src = galleryBase64;
+preview.classList.remove("hidden");
+
+};
+
+img.src = event.target.result;
+};
+
+reader.readAsDataURL(file);
+}
+
+function uploadGallery(){
+
+if(!galleryBase64){
+alert("Please select a photo first");
+return;
+}
+
+let category=document.getElementById("galleryCategory").value;
+
+db.collection("gallery").add({
+category:category,
+photo:galleryBase64
+}).then(()=>{
+alert("Uploaded Successfully");
+document.getElementById("galleryPreview").classList.add("hidden");
+galleryBase64="";
+loadGallery();
+});
+
+}
+
+function loadGallery(){
+  let grid = document.getElementById("galleryGrid");
+
+  db.collection("gallery").onSnapshot(snapshot=>{
+    grid.innerHTML = "";
+
+    snapshot.forEach(doc=>{
+      let d = doc.data();
+
+      grid.innerHTML += `
+        <div class="card">
+          <h5>${d.category ? d.category : "General"}</h5>
+          <img src="${d.photo}" class="preview">
+          ${isAdmin ? `<button class="danger" onclick="deletePhoto('${doc.id}')">Delete</button>` : ""}
+        </div>
+      `;
+    });
+  });
+}
+function deletePhoto(id){
+db.collection("gallery").doc(id).delete().then(loadGallery);
+}
+
+function editStudent(id){
+
+db.collection("students").doc(id).get().then(doc=>{
+let data = doc.data();
+
+let newUpi = prompt("Enter UPI Number:", data.upi || "");
+if(newUpi === null) return;
+
+let newAssessment = prompt("Enter Assessment Number:", data.assessment || "");
+if(newAssessment === null) return;
+
+db.collection("students").doc(id).update({
+upi: newUpi,
+assessment: newAssessment
+}).then(()=>{
+alert("Updated Successfully");
+loadStudents();
+loadAdminPanel();
+});
+
+});
+
+}
+function autoPromote(){
+
+if(!isAdmin){
+alert("Admin Only");
+return;
+}
+
+if(!confirm("Promote all students to next class?")){
+return;
+}
+
+db.collection("students").get().then(snapshot=>{
+snapshot.forEach(doc=>{
+
+let data = doc.data();
+let currentClass = data.class;
+
+let nextClass = {
+"PP1":"PP2",
+"PP2":"Grade 1",
+"Grade 1":"Grade 2",
+"Grade 2":"Grade 3",
+"Grade 3":"Grade 4",
+"Grade 4":"Grade 5",
+"Grade 5":"Grade 6",
+"Grade 6":"Grade 7",
+"Grade 7":"Grade 8",
+"Grade 8":"Grade 9",
+"Grade 9":"Graduated"
+};
+
+if(nextClass[currentClass]){
+db.collection("students").doc(doc.id).update({
+class: nextClass[currentClass]
+});
+}
+
+});
+});
+
+alert("Students Promoted Successfully");
+loadStudents();
+}
+function loadAdminPanel(){
+
+if(!isAdmin) return;
+
+let container = document.getElementById("adminStudentList");
+container.innerHTML = "";
+
+db.collection("students").get().then(snapshot=>{
+snapshot.forEach(doc=>{
+let d = doc.data();
+
+container.innerHTML += `
+<div class="card">
+<b>${d.name}</b><br>
+Admission: ${d.adm}<br>
+Class: ${d.class} ${d.stream}<br>
+
+<hr>
+UPI: ${d.upi || "Not Set"}<br>
+Assessment: ${d.assessment || "Not Set"}<br>
+Parent: ${d.parent}<br>
+Phone: ${d.phone}<br><br>
+
+<button class="primary" onclick="window.location='tel:${d.phone}'">
+Call Parent
+</button>
+
+<button class="admin" onclick="editStudent('${doc.id}')">
+Edit UPI / Assessment
+</button>
+
+<button class="danger" onclick="deleteStudent('${doc.id}')">
+Delete Student
+</button>
+
+</div>
+`;
+});
+});
+}
+// ===== REALTIME STUDENT LISTENER =====
+db.collection("students").onSnapshot(function(snapshot) {
+  loadStudents();
+  if(isAdmin){
+    loadAdminPanel();
+  }
+});
+</script>
+
+</body>
+</html>
