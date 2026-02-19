@@ -1,11 +1,13 @@
-const CACHE_NAME = "emali-school-v1";
+const CACHE_NAME = "emali-school-v2";
+
 const urlsToCache = [
-  "./",
-  "./index.html",
-  "./manifest.json",
-  "./icon-192.png"
+  "/emali-school-system/",
+  "/emali-school-system/index.html",
+  "/emali-school-system/manifest.json",
+  "/emali-school-system/icon-192.png"
 ];
 
+// INSTALL
 self.addEventListener("install", function(event) {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -16,12 +18,14 @@ self.addEventListener("install", function(event) {
   self.skipWaiting();
 });
 
+// ACTIVATE
 self.addEventListener("activate", function(event) {
   event.waitUntil(
     self.clients.claim()
   );
 });
 
+// FETCH
 self.addEventListener("fetch", function(event) {
   event.respondWith(
     caches.match(event.request)
