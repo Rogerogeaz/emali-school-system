@@ -1,7 +1,8 @@
 {
-  "name": "Emali Township School",
+  "name": "Emali Township Comprehensive School",
   "short_name": "Emali School",
-"start_url": "./",
+  "start_url": "/emali-school-system/",
+  "scope": "/emali-school-system/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#fb8c00",
